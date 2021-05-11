@@ -6,4 +6,5 @@ var notes = app()
 
 console.log(chalk.green(notes))
 console.log(chalk.green.bold(notes))
+console.log(chalk.green.inverse(notes))
 console.log(chalk.green.inverse.bold(notes))
