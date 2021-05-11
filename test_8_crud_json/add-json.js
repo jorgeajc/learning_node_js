@@ -1,4 +1,5 @@
 const fs = require('fs')
+const notes = require('./notes.js')
 
 const book = {
     title: 'Hola',
@@ -6,6 +7,6 @@ const book = {
 }
 
 const dataJsonString = JSON.stringify(book)
-fs.writeFileSync('./crud-json/bookJSON.json', dataJsonString)
+fs.writeFileSync('./test_8_crud_json/bookJSON.json', dataJsonString)
 
 
