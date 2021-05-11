@@ -2,33 +2,33 @@ const fs =require("fs")
 const chalk = require('chalk')
 
 // obtener todas las notas
-const getNotes = () => loadNotes()
+const getNotes = () => console.log( loadNotes() )
 
 // validar el json para cargarle los datos
-const addNote = function(title, body) {
-    console.log(chalk.blue('Adding a new note!'))
+const addNote = (title, body) => {
+    messageBlue('Adding a new note!')
     const notes = loadNotes()
-    const duplicateNotes = notes.filter( (note) => note.title === title )
-    if( duplicateNotes.length === 0 ) {
+    const duplicateNote = notes.find((note) => note.title === title)
+    if( !duplicateNote ) {
         notes.push({
             title: title,
             body: body
         })
         saveNotes(notes)
-        console.log(chalk.green.inverse('Note added'))
+        messageGreenInverse('Note added')
     } else {
-        console.log(chalk.red.inverse('Title duplicated'))
+        messageRedInverse('Title duplicated')
     }
 }
 
 // guardar datos en json
-const saveNotes = function(notes){
+const saveNotes = (notes) => {
     const dataJson = JSON.stringify(notes)
     fs.writeFileSync('notes.json', dataJson)
 }
 
 // buscar el archivo, si lo encuentra lo retorno, de lo contrario retorno array 
-const loadNotes = function() {
+const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJson   = dataBuffer.toString()
@@ -39,20 +39,53 @@ const loadNotes = function() {
 }
 
 // eliminar nota
-const deleteNote = function(title) {
+const deleteNote = (title) => {
     console.log(chalk.blue('Removing a note!'))
     const notes = loadNotes()
     const notesToKeep = notes.filter( (note) => note.title !== title )
     if(  notesToKeep.length < notes.length ){
         saveNotes(notesToKeep)
-        console.log(chalk.green.inverse('Note deleted'))
+        messageGreenInverse('Note deleted')
     } else {
-        console.log(chalk.red.inverse('Title not exist'))
+        messageRedInverse('Title not exist')
     }
 }
+
+// obtener todo los titulos
+const getTitlesNotes = () => {
+    const notes = loadNotes()
+    notes.forEach(note => {
+        messageGreen(note.title)
+    });
+}
+
+// buscar nota
+const getNote = (title) => {
+    const notes = loadNotes()
+    const note  = notes.find((note) => note.title === title)
+    if(note){
+        messageWhiteInverse(note.body)
+    } else {
+        messageRedInverse('Title not exist')
+    }
+}
+
+const messageGreen = (msg) =>  console.log(chalk.green(msg))
+const messageGreenInverse = (msg) =>  console.log(chalk.green.inverse(msg))
+
+const messageRed = (msg) =>  console.log(chalk.red(msg))
+const messageRedInverse = (msg) =>  console.log(chalk.red.inverse(msg))
+
+const messageBlue = (msg) =>  console.log(chalk.blue(msg))
+const messageBlueInverse = (msg) =>  console.log(chalk.blue.inverse(msg))
+
+const messageWhite = (msg) =>  console.log(chalk.white(msg))
+const messageWhiteInverse = (msg) =>  console.log(chalk.white.inverse(msg))
 
 module.exports = {
     getNotes,
     addNote,
-    deleteNote
+    deleteNote,
+    getTitlesNotes,
+    getNote
 }

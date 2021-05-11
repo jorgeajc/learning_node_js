@@ -45,7 +45,28 @@ yargs.command({
 yargs.command({
     command: 'get',
     describe: 'Get a note',
-    handler: () => console.log( notes.getNotes() )
+    handler: () => notes.getNotes()
+})
+
+// get titles
+yargs.command({
+    command: 'get_titles',
+    describe: 'Get a note',
+    handler: () => notes.getTitlesNotes()
+})
+
+// search note
+yargs.command({
+    command: 'search',
+    describe: 'Get a note',
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: (argv) => notes.getNote(argv.title)
 })
 
 yargs.parse()
