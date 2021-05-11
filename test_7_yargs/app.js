@@ -1,14 +1,13 @@
 const yargs = require('yargs')
 const chalk = require('chalk')
+const notes = require('../test_3_export_module_notes/utils.js')
 
 // create
 yargs.command({
     command: 'add',
     describe: 'Add a new note',
     handler: function(argv) {
-        console.log(chalk.blue('Adding a new note!'))
-        console.log('Title: ' + argv.title)
-        console.log('Body: ' + argv.body)
+        notes.addNote(argv.title, argv.body)
     },
     builder: {
         title: {
@@ -27,8 +26,15 @@ yargs.command({
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function() {
-        console.log('Removing a note!')
+    handler: function(argv) {
+        notes.deleteNote(argv.title)
+    },
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
     }
 })
 // edit
@@ -45,6 +51,7 @@ yargs.command({
     describe: 'Get a note',
     handler: function() {
         console.log('Geting a new note!')
+        console.log(notes.getNotes())
     }
 })
 

@@ -1,13 +1,13 @@
 const fs = require('fs')
 
-const dataBuffer = fs.readFileSync('./test_8_crud_json/bookJSON.json')
+const dataBuffer = fs.readFileSync('notes.json')
 const dataJson = dataBuffer.toString()
-const book = JSON.parse( dataJson )
+const note = JSON.parse( dataJson )
 
-book.title = "Book title edited"
-book.body = "Book Body edited"
+note.title = "Note title edited"
+note.body = "Note Body edited"
 
-const bookJSON = JSON.stringify( book )
-fs.writeFileSync('./test_8_crud_json/bookJSON.json', bookJSON)
+const noteJSON = JSON.stringify( note )
+fs.writeFileSync('notes.json', noteJSON)
 
-console.log(book)
+console.log(note)
