@@ -2,17 +2,13 @@ const fs =require("fs")
 const chalk = require('chalk')
 
 // obtener todas las notas
-const getNotes = function() {
-    return loadNotes()
-}
+const getNotes = () => loadNotes()
 
 // validar el json para cargarle los datos
 const addNote = function(title, body) {
     console.log(chalk.blue('Adding a new note!'))
     const notes = loadNotes()
-    const duplicateNotes = notes.filter(function(note){
-        return note.title === title
-    })
+    const duplicateNotes = notes.filter( (note) => note.title === title )
     if( duplicateNotes.length === 0 ) {
         notes.push({
             title: title,
@@ -46,9 +42,7 @@ const loadNotes = function() {
 const deleteNote = function(title) {
     console.log(chalk.blue('Removing a note!'))
     const notes = loadNotes()
-    const notesToKeep = notes.filter(function(note){
-        return note.title !== title
-    })
+    const notesToKeep = notes.filter( (note) => note.title !== title )
     if(  notesToKeep.length < notes.length ){
         saveNotes(notesToKeep)
         console.log(chalk.green.inverse('Note deleted'))
