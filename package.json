@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "watches": {
+    "sass": "sass/**"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "node-sass test_14_expressjs/public/scss/ -o test_14_expressjs/public/css/",
+    "sass:watch": "npm run sass && npm run sass -- --watch --recursive",
+    "dev": "rerun-script"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +21,9 @@
     "request": "^2.88.2",
     "validator": "^13.6.0",
     "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "node-sass": "^6.0.0",
+    "rerun-script": "^0.6.0"
   }
 }
