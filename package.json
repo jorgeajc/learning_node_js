@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "hbs": "^4.1.2",
     "mongodb": "^3.6.6",
+    "mongoose": "^5.12.9",
     "request": "^2.88.2",
     "validator": "^13.6.0",
     "yargs": "^17.0.1"

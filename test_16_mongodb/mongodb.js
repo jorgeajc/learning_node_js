@@ -6,7 +6,7 @@ const { MongoClient, ObjectID } = require('mongodb')
 const connectionURL = 'mongodb://localhost:27017',
       databaseName = 'tas-manager',
       documentUser = 'users',
-      documentTask = 'task'
+      documentTask = 'tasks'
 
 const mongodbOptions = {
     useNewUrlParser: true,
