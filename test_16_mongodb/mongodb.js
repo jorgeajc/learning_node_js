@@ -21,12 +21,14 @@ MongoClient.connect( connectionURL, mongodbOptions, (error, client) => {
     db = client.db(databaseName)
     // insertUser('Alberto', 23, id)
     // getUserById('609ea38486a4cb3808e94692')
-    // getUserByColumn({name:'jorge', age:23});
-
+    // getUserByColumn({name:'jorge', age:23})
+    // updateUser('609ea38486a4cb3808e94692', { name: 'Jimenez', age: 10 })
+    // deleteUser('609ea38486a4cb3808e94692')
 
     // insertTask('Esta es la segunda tarea', false)
     // getTaskById("609ea577ac62b7116407bd8d")
     // getTaskByCompleted(false)
+    // updateTaskCompleted(true, false)
 })
 
 
@@ -59,6 +61,29 @@ const getUserByColumn = (column = {}) => {
         console.log( obj )
     })
 }
+const updateUser = (id, columns = {}) => {
+    db.collection(documentUser).updateOne({_id: new ObjectID(id)}, {
+        $set: {
+            name: columns.name,
+        },
+        $inc: {
+            age: columns.age
+        }
+    }).then((res) => {
+        console.log(res)
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+const deleteUser = (id) => {
+    db.collection(documentUser).deleteOne({
+        _id: new ObjectID(id)
+    }).then((res) => {
+        console.log(res)
+    }).catch((error) => {
+        console.log(error)
+    })
+}
 
 const insertTask = (description, completed) => {
     db.collection(documentTask).insertOne({
@@ -87,6 +112,19 @@ const getTaskByCompleted = (completed) => {
             return console.log('Unable to get task')
         }
         console.log( obj )
+    })
+}
+const updateTaskCompleted = (toUpdate, newValue) => {
+    db.collection(documentTask).updateMany({
+        completed: toUpdate
+    }, {
+        $set: {
+            completed: newValue,
+        }
+    }).then((res) => {
+        console.log(res)
+    }).catch((error) => {
+        console.log(error)
     })
 }
 
