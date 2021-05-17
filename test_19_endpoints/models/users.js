@@ -1,8 +1,14 @@
 const mongoose = require('../connection/conn.js')
 const validator = require('validator')
-const documentUser = 'users'
+const bcrypt = require('bcryptjs')
+const m = async () => {
+    const pass = '123Jorge'
+    const hashed = await bcrypt.hash(pass, 8)
+    const isMatch = await bcrypt.compare(pass, hashed)
+}
 
-const User = mongoose.model(documentUser, {
+const documentUser = 'users'
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -34,12 +40,21 @@ const User = mongoose.model(documentUser, {
         minLength: 7,
         trim: true,
         validate(val) {
-            if( !val.toLowerCase().includes('password') ) {
+            /* if( !val.toLowerCase().includes('password') ) {
                 throw new Error('Password cannot contain password')
-            }
+            } */
         }
     }
 })
+userSchema.pre('save', async function(next) {
+    const user = this
+    if( user.isModified('password') ) {
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+    next()
+})
+
+const User = new mongoose.model('User', userSchema)
 
 let newUser = (data) => {
     return new User({

@@ -21,7 +21,7 @@ router.get('/task', async ( req, res ) => {
 router.get('/task/:id', async (req, res) => {
     try {
         const _id = req.params.id
-        const t = await task.Task.findById(  _id  )  
+        await task.Task.findById(  _id  )  
         if( !t ) {
             return res.status(404).send( ) 
         }
@@ -40,12 +40,16 @@ router.patch('/task/:id', async (req, res) => {
     try {
         const _id = req.params.id
         const body = req.body
-        const u = await task.Task.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
-        if( !u ) {
+        // const t = await task.Task.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
+        const t = await task.Task.findById(_id)
+        if( !t ) {
             return res.status(404).send( ) 
         }
-        return res.send( u )
-    } catch (error) {
+        updates.forEach((up) => t[up] = body[up] )
+        await t.save()
+        return res.send( t )
+    } catch (e) {
+        console.log(e)
         return res.status(400).send( e )
     }
 })
