@@ -1,11 +1,7 @@
 const mongoose = require('../connection/conn.js')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const m = async () => {
-    const pass = '123Jorge'
-    const hashed = await bcrypt.hash(pass, 8)
-    const isMatch = await bcrypt.compare(pass, hashed)
-}
+const jwt = require('jsonwebtoken')
 
 const documentUser = 'users'
 const userSchema = new mongoose.Schema({
@@ -32,7 +28,8 @@ const userSchema = new mongoose.Schema({
             if( !validator.isEmail( val ) ) {
                 throw new Error('Email format is invalid')
             }
-            if(await User.findOne({ email: val })) {
+            const user = await User.findOne({ email: val })
+            if( user ) {
                 if( this.id === user.id ) {
                     return true;
                 }
@@ -50,9 +47,22 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Password cannot contain password')
             } */
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
 
+userSchema.methods.generateAuthToken = async function ( ) {
+    const user = this
+    const token = jwt.sign( { _id: user._id.toString() } , 'tok')
+    user.tokens = user.tokens.concat({token})
+    await user.save()
+    return token
+}
 userSchema.statics.findByCredentials = async (email, pass) => {
     const user = await User.findOne({email:email})
     if( !user ){
@@ -73,7 +83,7 @@ userSchema.pre('save', async function(next) {
     next()
 })
 
-const User = new mongoose.model('User', userSchema)
+const User = new mongoose.model(documentUser, userSchema)
 
 let newUser = (data) => {
     return new User({
