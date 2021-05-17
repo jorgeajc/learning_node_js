@@ -28,9 +28,15 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         lowercase: true,
-        validate(val) {
+        async validate(val) {
             if( !validator.isEmail( val ) ) {
                 throw new Error('Email format is invalid')
+            }
+            if(await User.findOne({ email: val })) {
+                if( this.id === user.id ) {
+                    return true;
+                }
+                throw new Error('The specified email address is already in use.')
             }
         }
     },
