@@ -5,11 +5,11 @@ const doWorkPromise = new Promise((resolve, reject)=> {
     }, 2000)
 })
 
-doWorkPromise.then(( res )=>{
+/* doWorkPromise.then(( res )=>{
     console.log('Succes', res)
 }).catch((e)=>{
     console.log('error', e)
-})
+}) */
 
 
 const add = (a, b) => {
@@ -20,7 +20,7 @@ const add = (a, b) => {
     })
 }
 
-add(1, 2).then( (sum) =>{
+/* add(1, 2).then( (sum) =>{
    console.log(sum) 
    add(sum, 2).then( (sum2) =>{
         console.log(sum2) 
@@ -38,8 +38,10 @@ add(1, 2).then( (sum) =>{
     console.log(sum2) 
 }) .catch( (e) => {
      console.log(e)
- })
+ }) */
 
+
+module.exports = add
 // 
 // 
 //                               _ fulfilled  

@@ -13,7 +13,7 @@ user.User.findByIdAndUpdate('609ee7d4741cca2214957520', {age: 2}).then((u)=> {
 
 task.Task.findByIdAndUpdate('609ec61203d29c24e44b700a', {description: 'editado'}).then((t)=> {
     console.log(t)
-    return t.Task.countDocuments({description: 'editado'})
+    return task.Task.countDocuments({description: 'editado'})
 }).then((res)=> {
     console.log(res)
 }).catch((e) => {
