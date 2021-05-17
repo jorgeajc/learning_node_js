@@ -7,7 +7,8 @@ const connectionURL = 'mongodb://localhost:27017',
 const mongooseOptions = {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 }
 mongoose.connect(connectionURL + '/' + databaseName, mongooseOptions)
 
