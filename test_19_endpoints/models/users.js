@@ -46,6 +46,19 @@ const userSchema = new mongoose.Schema({
         }
     }
 })
+
+userSchema.statics.findByCredentials = async (email, pass) => {
+    const user = await User.findOne({email:email})
+    if( !user ){
+        throw new Error('Error of credentials')
+    }
+    const isMatch = await bcrypt.compare(pass, user.password)
+    if( !isMatch ) {
+        throw new Error('Error of credentials')
+    }
+    return user
+}
+
 userSchema.pre('save', async function(next) {
     const user = this
     if( user.isModified('password') ) {

@@ -1,19 +1,19 @@
 const express = require('express')
-let task = require('../../models/task.js')
+let {Task, newTask} = require('../../models/task.js')
 const router = express.Router()
 
 router.post('/task', async ( req, res ) => {
-    const t = task.newTask(req.body)
+    const task = newTask(req.body)
     try {
-        await t.save()
-        return res.status(201).send( t )
+        await task.save()
+        return res.status(201).send( task )
     } catch (e) {
         return res.status(400).send( e )
     }
 })
 router.get('/task', async ( req, res ) => {
     try {
-        return res.send( await task.Task.find({}) )
+        return res.send( await Task.find({}) )
     } catch (e) {
         return res.status(400).send( e )
     }
@@ -21,11 +21,11 @@ router.get('/task', async ( req, res ) => {
 router.get('/task/:id', async (req, res) => {
     try {
         const _id = req.params.id
-        await task.Task.findById(  _id  )  
-        if( !t ) {
+        const task = await Task.findById(  _id  )  
+        if( !task ) {
             return res.status(404).send( ) 
         }
-        return res.send( t )
+        return res.send( task )
     } catch (e) {
         return res.status(400).send( e )
     }
@@ -40,14 +40,14 @@ router.patch('/task/:id', async (req, res) => {
     try {
         const _id = req.params.id
         const body = req.body
-        // const t = await task.Task.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
-        const t = await task.Task.findById(_id)
-        if( !t ) {
+        // const task = await Task.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
+        const task = await Task.findById(_id)
+        if( !task ) {
             return res.status(404).send( ) 
         }
-        updates.forEach((up) => t[up] = body[up] )
-        await t.save()
-        return res.send( t )
+        updates.forEach((up) => task[up] = body[up] )
+        await task.save()
+        return res.send( task )
     } catch (e) {
         console.log(e)
         return res.status(400).send( e )
@@ -56,11 +56,11 @@ router.patch('/task/:id', async (req, res) => {
 router.delete('/task/:id', async (req, res) => {
     try {
         const _id = req.params.id
-        const t = await task.Task.findByIdAndDelete(  _id  )  
-        if( !t ) {
+        const task = await Task.findByIdAndDelete(  _id  )  
+        if( !task ) {
             return res.status(404).send( ) 
         }
-        return res.send( t )
+        return res.send( task )
     } catch (e) {
         return res.status(400).send( e )
     }

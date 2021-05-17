@@ -1,19 +1,19 @@
 const express = require('express')
-let user = require('../../models/users.js')
+let {User, newUser} = require('../../models/users.js')
 const router = express.Router()
 
 router.post('/users', async ( req, res ) => {
-    const u = user.newUser(req.body)
+    const user = newUser(req.body)
     try {
-        await u.save()
-        return res.status(201).send( u )
+        await user.save()
+        return res.status(201).send( user )
     } catch (e) {
         return res.status(400).send( e )
     }
 })
 router.get('/users', async ( req, res ) => {
     try {
-        return res.send( await user.User.find({}) )
+        return res.send( await User.find({}) )
     } catch (e) {
         return res.status(400).send( e )
     }
@@ -21,11 +21,11 @@ router.get('/users', async ( req, res ) => {
 router.get('/users/:id', async (req, res) => {
     try {
         const _id = req.params.id
-        const u = await user.User.findById(  _id  )  
-        if( !u ) {
+        const user = await User.findById(  _id  )  
+        if( !user ) {
             return res.status(404).send( ) 
         }
-        return res.send( u )
+        return res.send( user )
     } catch (e) {
         return res.status(400).send( e )
     }
@@ -40,14 +40,14 @@ router.patch('/users/:id', async (req, res) => {
     try {
         const _id = req.params.id
         const body = req.body
-        const u = await user.User.findById(_id)
-        // const u = await user.User.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
-        if( !u ) {
+        const user = await User.findById(_id)
+        // const user = await User.findByIdAndUpdate(_id, body, {new: true, runValidators: true}) 
+        if( !user ) {
             return res.status(404).send( ) 
         }
-        updates.forEach((up) => u[up] = body[up] )
-        await u.save()
-        return res.send( u )
+        updates.forEach((up) => user[up] = body[up] )
+        await user.save()
+        return res.send( user )
     } catch (e) {
         return res.status(400).send( e )
     }
@@ -55,13 +55,25 @@ router.patch('/users/:id', async (req, res) => {
 router.delete('/users/:id', async (req, res) => {
     try {
         const _id = req.params.id
-        const u = await user.User.findByIdAndDelete(  _id  )  
-        if( !u ) {
+        const user = await User.findByIdAndDelete(  _id  )  
+        if( !user ) {
             return res.status(404).send( ) 
         }
-        return res.send( u )
+        return res.send( user )
     } catch (e) {
         return res.status(400).send( e )
     }
 })
+router.post('/user/login', async (req, res) => {
+    try {
+        const body = req.body
+        const user = await User.findByCredentials(body.email, body.password)
+        return res.send( user )
+    } catch (e) {
+        console.log(e)
+        return res.status(400).send( e )
+    }
+})
+
+
 module.exports = router
