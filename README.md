@@ -14,7 +14,7 @@ install npm
    npm install
   ```
 
-* install nodemon global
+* install nodemon global (optional)
   ```sh
   npm install nodemon -g
   ```
