@@ -1,7 +1,21 @@
 const express = require('express')
 let {User, newUser} = require('../../models/users.js')
 const auth = require('../middleware/auth.js')
-
+const path = require('path')
+const publicPath = path.join(__dirname, '../../public')
+const multer = require('multer')
+const upload = multer({
+    // dest: publicPath + '/images',
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, cb) {
+        if( !file.originalname.match(/\.(jpg|jpeg|png|svg)$/) ) {
+            return cb( new Error('Please upload a images jpg|jpeg|png|svg') )
+        }
+        cb(undefined, true)
+    }
+})
 const router = express.Router()
 
 router.post('/users', async ( req, res ) => {
@@ -94,6 +108,31 @@ router.post('/user/logoutAll', auth, async (req, res) => {
         return res.status(400).send( e )
     }
 })
-
+router.post('/user/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+    req.user.avatar = req.file.buffer
+    await req.user.save()
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
+})
+router.delete('/user/me/avatar', auth, async (req, res) => {
+    req.user.avatar = undefined
+    await req.user.save()
+    res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
+})
+router.get('/user/:id/avatar', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        if( !user || !user.avatar ) {
+            throw new Error('Without image')
+        }
+        res.set('Content-type', 'image/jpg')
+        res.send(user.avatar)
+    } catch (error) {
+        res.status(400).send({Error: error.message})
+    }
+})
 
 module.exports = router

@@ -1,37 +1,57 @@
-## learnin_node_js
+<br />
+<p align="center">
+  <h3 align="center">learnin_node_js</h3>
+</p>
+
+<!-- GETTING STARTED -->
+## Getting Started
 
 
-## install npm
-# run npm install
+### Prerequisites
+install npm
+* run npm
+  ```sh
+   npm install
+  ```
 
+* install nodemon global (optional)
+  ```sh
+  npm install nodemon -g
+  ```
 
-## install nodemon global
-# npm install nodemon -g
-
-
-## install nodemon dev
-# npm install nodemon --save-dev
-
-
+* install nodemon dev
+  ```sh
+  npm install nodemon --save-dev
+  ```
 
 #### web page weather ####
-## compile scss 
-# npm run weather:sass
-## if you want to compile changes in real time scss
-# npm run weather:sass:watch
-## run app
-# npm run weather:start
-## if you want to run changes in real time 
-# npm run weather:start:watch
-### url production weather app ###
-# https://node-js-jorge-practices.herokuapp.com/
-
-
+* compile scss
+  ```sh
+  npm run weather:sass
+  ```
+* if you want to compile changes in real time scss
+  ```sh
+  npm run weather:sass:watch
+  ```
+* if you want to run changes in real time
+  ```sh
+  npm run weather:start
+  ```
+* npm run weather:start:watch
+  ```sh
+  npm run weather:start
+  ```
+* url production weather app
+  ```sh
+  https://node-js-jorge-practices.herokuapp.com/
+  ```
+  
 #### endpoints mongoose ####
-## run app
-# npm run endpoints:start
-## if you want to run changes in real time 
-# npm run endpoints:start:watch
-
-
-
+* run app
+  ```sh
+  npm run endpoints:start
+  ```
+* if you want to run changes in real time 
+  ```sh
+  npm run endpoints:start:watch
+  ```
