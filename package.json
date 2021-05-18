@@ -12,7 +12,9 @@
     "endpoints:start": "node test_19_endpoints/src/app.js",
     "endpoints:start:watch": "nodemon test_19_endpoints/src/app.js -e js,hbs,css,jpg,png,scss",
     "endpoints:dev:env": "env-cmd -f test_19_endpoints/config/dev.env npm run endpoints:start:watch",
-    "endpoints:prod:env": "env-cmd -f test_19_endpoints/config/dev.env npm run endpoints:start"
+    "endpoints:prod:env": "env-cmd -f test_19_endpoints/config/dev.env npm run endpoints:start",
+
+    "start": "npm run endpoints:prod:env"
   },
   "author": "",
   "license": "ISC",
