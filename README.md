@@ -41,10 +41,7 @@ install npm
   ```sh
   npm run weather:start:watch
   ```
-* url production weather app
-  ```sh
-  https://node-js-jorge-practices.herokuapp.com/
-  ```
+  
   
 #### endpoints mongoose ####
 * run app
