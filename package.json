@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "env-cmd -f test_19_endpoints/config/dev.env node test_19_endpoints/src/app.js",
+
     "weather:start": "node test_14_expressjs/src/app.js",
     "weather:start:watch": "nodemon test_14_expressjs/src/app.js -e js,hbs,css,jpg,png,scss",
     "weather:sass": "node-sass test_14_expressjs/public/scss/ -o test_14_expressjs/public/css/",
@@ -12,9 +14,8 @@
     "endpoints:start": "node test_19_endpoints/src/app.js",
     "endpoints:start:watch": "nodemon test_19_endpoints/src/app.js -e js,hbs,css,jpg,png,scss",
     "endpoints:dev:env": "env-cmd -f test_19_endpoints/config/dev.env npm run endpoints:start:watch",
-    "endpoints:prod:env": "env-cmd -f test_19_endpoints/config/dev.env node test_19_endpoints/src/app.js",
+    "endpoints:prod:env": "env-cmd -f test_19_endpoints/config/dev.env node test_19_endpoints/src/app.js"
 
-    "start": "env-cmd -f test_19_endpoints/config/dev.env node test_19_endpoints/src/app.js"
   },
   "author": "",
   "license": "ISC",
