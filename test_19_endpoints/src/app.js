@@ -1,17 +1,6 @@
-const express = require('express')
+const app = require('./config-app.js')
 
-const userRouter = require('./routers/user.js')
-const taskRouter = require('./routers/task.js')
-
-const port = process.env.PORT
-
-const app = express()
-
-app.use(express.json())
-// users 
-app.use(userRouter)
-// task
-app.use(taskRouter)
+const port = process.env.PORT || 3000 
 
 app.listen(port, ()=>{
     console.log('server is up on port ' + port)

@@ -1,5 +1,4 @@
 const {calculateTip, add} = require('../src/example-testing.js')
-
 test('math', () => {
     const tt = calculateTip(10, .3)
     expect(tt).toBe(13)

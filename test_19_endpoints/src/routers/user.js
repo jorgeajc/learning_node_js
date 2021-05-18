@@ -39,7 +39,7 @@ router.get('/users', auth, async ( req, res ) => {
         return res.status(400).send( e )
     }
 })
-router.get('/users/me', auth, async ( req, res ) => {
+router.get('/user/me', auth, async ( req, res ) => {
     return res.send( req.user )
 })
 router.get('/users/:id', auth, async (req, res) => {
