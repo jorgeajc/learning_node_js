@@ -1,8 +1,9 @@
 const express = require('express')
 let {User, newUser} = require('../../models/users.js')
 const auth = require('../middleware/auth.js')
-const path = require('path')
-const publicPath = path.join(__dirname, '../../public')
+
+const sharp = require('sharp')
+
 const multer = require('multer')
 const upload = multer({
     // dest: publicPath + '/images',
@@ -109,7 +110,8 @@ router.post('/user/logoutAll', auth, async (req, res) => {
     }
 })
 router.post('/user/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    req.user.avatar = req.file.buffer
+    const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
+    req.user.avatar = buffer
     await req.user.save()
     res.send()
 }, (error, req, res, next) => {
@@ -128,7 +130,7 @@ router.get('/user/:id/avatar', async (req, res) => {
         if( !user || !user.avatar ) {
             throw new Error('Without image')
         }
-        res.set('Content-type', 'image/jpg')
+        res.set('Content-type', 'image/png')
         res.send(user.avatar)
     } catch (error) {
         res.status(400).send({Error: error.message})
