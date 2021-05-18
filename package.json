@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "env-cmd -f test_19_endpoints/config/dev.env node test_19_endpoints/src/app.js",
+    "start": "node test_19_endpoints/src/app.js",
 
     "weather:start": "node test_14_expressjs/src/app.js",
     "weather:start:watch": "nodemon test_14_expressjs/src/app.js -e js,hbs,css,jpg,png,scss",
