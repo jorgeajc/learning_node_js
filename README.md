@@ -9,9 +9,9 @@
 
 ### Prerequisites
 install npm
-* npm
+* run npm
   ```sh
-  run npm install
+   npm install
   ```
 
 * install nodemon global
