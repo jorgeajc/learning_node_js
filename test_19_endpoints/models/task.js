@@ -17,6 +17,8 @@ const taskSchema = mongoose.Schema({
         required: true,
         ref: 'users'
     }
+},{
+    timestamps: true
 })
 
 let newTask = (data) => {
