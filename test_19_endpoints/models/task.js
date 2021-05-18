@@ -1,7 +1,7 @@
 const mongoose = require('../connection/conn.js')
 const documentTask = 'tasks'
 
-const Task = mongoose.model(documentTask, {
+const taskSchema = mongoose.Schema({
     description: {
         type: String,
         required: true,
@@ -11,15 +11,19 @@ const Task = mongoose.model(documentTask, {
         type: Boolean,
         required: true,
         default: true
+    },
+    owner: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'users'
     }
 })
 
 let newTask = (data) => {
-    return new Task({
-        description: data.description,
-        completed: data.completed
-    })
+    return new Task(data)
 }
+
+const Task = new mongoose.model(documentTask, taskSchema)
 
 module.exports = {
     Task,
