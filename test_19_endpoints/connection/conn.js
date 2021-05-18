@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
-const connectionURL = 'mongodb://localhost:27017',
-      databaseName = 'tas-manager'
+const connectionURL = process.env.MONGODB_HOST,
+      databaseName = process.env.MONGODB_DATANAME
       
 
 const mongooseOptions = {
