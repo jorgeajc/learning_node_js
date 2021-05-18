@@ -39,7 +39,7 @@ install npm
   ```
 * npm run weather:start:watch
   ```sh
-  npm run weather:start
+  npm run weather:start:watch
   ```
 * url production weather app
   ```sh
