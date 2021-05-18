@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <h3 align="center">learnin_node_js</h3>
+  <h3 align="center">learning_node_js</h3>
 </p>
 
 <!-- GETTING STARTED -->
@@ -39,7 +39,7 @@ install npm
   ```
 * npm run weather:start:watch
   ```sh
-  npm run weather:start
+  npm run weather:start:watch
   ```
 * url production weather app
   ```sh
