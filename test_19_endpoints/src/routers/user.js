@@ -2,6 +2,8 @@ const express = require('express')
 let {User, newUser} = require('../../models/users.js')
 const auth = require('../middleware/auth.js')
 
+const {sendWelcomeEmail, sendGoodBayEmail} = require('../emails/account.js')
+
 const sharp = require('sharp')
 
 const multer = require('multer')
@@ -24,9 +26,10 @@ router.post('/users', async ( req, res ) => {
     try {
         await user.save()
         const token = await user.generateAuthToken()
+        sendWelcomeEmail(user.email, user.name)
         return res.status(201).send( {user, token} )
     } catch (e) {
-        return res.status(400).send( e )
+        return res.status(400).send({Error: e.message})
     }
 })
 router.get('/users', auth, async ( req, res ) => {
@@ -70,8 +73,8 @@ router.patch('/users/me', auth, async (req, res) => {
 })
 router.delete('/users/me', auth, async (req, res) => {
     try {
-        const _id = req.params.id
         req.user.remove()
+        sendGoodBayEmail(req.user.email, req.user.name)
         return res.send( req.user )
     } catch (e) {
         return res.status(400).send( e )
