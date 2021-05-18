@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <h3 align="center">learnin_node_js</h3>
+  <h3 align="center">learning_node_js</h3>
 </p>
 
 <!-- GETTING STARTED -->
