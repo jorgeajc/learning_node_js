@@ -14,7 +14,8 @@
     "endpoints:dev:env": "env-cmd -f test_19_endpoints_tasks/config/dev.env npm run endpoints:start:watch",
     "endpoints:prod:env": "env-cmd -f test_19_endpoints_tasks/config/dev.env node test_19_endpoints_tasks/src/app.js",
     "test": "env-cmd -f test_19_endpoints_tasks/config/test.env jest --verbose",
-    "chat:start": "nodemon test_21_chat_real_time/src/app.js"
+    "chat:start": "node test_21_chat_real_time/src/app.js",
+    "chat:start:watch": "nodemon test_21_chat_real_time/src/app.js"
   },
   "jest": {
     "testEnviroment": "node"

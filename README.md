@@ -52,3 +52,14 @@ install npm
   ```sh
   npm run endpoints:start:watch
   ```
+
+  
+#### chat real time app ####
+* run app
+  ```sh
+  npm run chat:start
+  ```
+* if you want to run changes in real time 
+  ```sh
+  npm run chat:start:watch
+  ```
