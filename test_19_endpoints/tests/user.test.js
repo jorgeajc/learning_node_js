@@ -19,14 +19,33 @@ test('Should signup a new user', async () => {
         password: '43214321'
     }).expect(201)
 })
+test('Should signup a new user and verify if exist', async () => {
+    const res = await request(app).post('/users').send({
+        name: 'Jorge',
+        email: 'alberto@gmail.com',
+        password: '43214321'
+    }).expect(201)
+
+    const user = await User.findById(res.body.user._id)
+    expect(user).not.toBeNull()
+
+    expect(res.body).toMatchObject({
+        user: {
+            name: 'Jorge',
+            email: 'alberto@gmail.com'
+        },
+        token: res.body.token
+    })
+})
 test('Should not signup a exiting user', async () => {
     await request(app).post('/users').send(userOne).expect(400)
 })
 test('Should login existing user', async () => {
-    await request(app).post('/user/login').send({
+    const res = await request(app).post('/user/login').send({
         email: userOne.email,
         password: userOne.password
     }).expect(200)
+    expect(res.body.token).not.toBeNull()
 })
 test('Should not login', async () => {
     await request(app).post('/user/login').send({
