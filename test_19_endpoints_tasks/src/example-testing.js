@@ -6,7 +6,7 @@ const add = (a, b) => {
             if( a < 0 || b < 0) return reject('Number invalid')
 
             resolve(a+b)
-        }, 2000);
+        }, 2000)
     })
 }
 module.exports = {

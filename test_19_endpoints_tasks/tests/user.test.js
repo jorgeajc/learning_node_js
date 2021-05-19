@@ -51,7 +51,7 @@ test('Should view my profile', async () => {
      
     await request(app).get('/user/me')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-        .expect(200);
+        .expect(200)
 })
 test('Should view my profile', async () => {
     await request(app).get('/user/me')

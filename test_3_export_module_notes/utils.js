@@ -57,7 +57,7 @@ const getTitlesNotes = () => {
     const notes = loadNotes()
     notes.forEach(note => {
         logMessage.messageGreen(note.title)
-    });
+    })
 }
 
 // buscar nota

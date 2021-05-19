@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
             const user = await User.findOne({ email: val })
             if( user ) {
                 if( this.id === user.id ) {
-                    return true;
+                    return true
                 }
                 throw new Error('The specified email address is already in use.')
             }
