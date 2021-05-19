@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        io.emit('title', generateMessage('A user disconnect'))
+        io.emit('message', generateMessage('A user disconnect'))
     })
 })
 
