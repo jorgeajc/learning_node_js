@@ -1,16 +1,9 @@
 const request = require('supertest')
 const app = require('../src/config-app.js')
 const {User} = require('../models/users.js')
-
-const userOne = {
-    name: 'Jorge',
-    email: 'jorge@gmail.com',
-    password: '12341234'
-}
-beforeEach(async () => {
-    await User.deleteMany()
-    await new User(userOne).save()
-})
+const { userOneId, userOne, setupDB } = require('./fixtures/db.js') 
+ 
+beforeEach( setupDB )
 
 test('Should signup a new user', async () => {
     await request(app).post('/users').send({
@@ -26,7 +19,7 @@ test('Should signup a new user and verify if exist', async () => {
         password: '43214321'
     }).expect(201)
 
-    const user = await User.findById(res.body.user._id)
+    const user = await User.findById(userOneId)
     expect(user).not.toBeNull()
 
     expect(res.body).toMatchObject({
@@ -55,17 +48,23 @@ test('Should not login', async () => {
 })
 
 test('Should view my profile', async () => {
-    var res = await request(app)
-        .post('/user/login')
-        .send({
-            email: userOne.email,
-            password: userOne.password
-        }); 
+     
     await request(app).get('/user/me')
-        .set('Authorization', 'Bearer ' + res.body.token)
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
         .expect(200);
 })
 test('Should view my profile', async () => {
     await request(app).get('/user/me')
     .send().expect(401)
+})
+
+test('Should upload avatar image', async () => {
+    await request(app)
+        .post('/user/me/avatar')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .attach('avatar', `${__dirname}/fixtures/profile.jpg`)
+        .expect(200)
+
+    const user = await User.findById(userOneId)
+    expect(user.avatar).toEqual(expect.any(Buffer))  
 })
