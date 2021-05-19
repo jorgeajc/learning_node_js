@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node test_19_endpoints_tasks/src/app.js",
+    "start": "node test_21_chat_real_time/src/app.js",
     "weather:start": "node test_14_expressjs_weather/src/app.js",
     "weather:start:watch": "nodemon test_14_expressjs_weather/src/app.js -e js,hbs,css,jpg,png,scss",
     "weather:sass": "node-sass test_14_expressjs_weather/public/scss/ -o test_14_expressjs_weather/public/css/",
