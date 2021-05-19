@@ -19,7 +19,7 @@
             <div id="messages" class="chat__messages"></div>
             <div class="compose">
                 <form id="message-form">
-                    <input type="text" id="inputMessage" name="message" placeholder="Message">
+                    <input type="text" id="inputMessage" name="message" placeholder="Message" required>
                     <button id="sendMessage">Send</button>
                 </form>
                 <button id="send-location">Send location</button>
@@ -29,7 +29,7 @@
     <script id="message-template" type="text/html">
         <div class="message">
             <p>
-                <span class="message__name">{{myName}}</span>-
+                <span class="message__name">{{username}}</span>-
                 <span class="message__meta">{{created_at}}</span>
             </p>
             <p>{{message}}</p>

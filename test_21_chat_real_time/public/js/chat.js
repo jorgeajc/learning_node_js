@@ -16,8 +16,6 @@ const formatDate = "D-M-Y h:mm a"
 // options
 const { username, room } = Qs.parse(location.search, {ignoreQueryPrefix: true})
 
-let myName = "Anonymous"
-
 socket.on('message', (message) => {
     setMessage(message)
 })
@@ -57,8 +55,9 @@ btnSendLocation.addEventListener('click', () => {
 })
 
 const setMessage = (message) => {
+    console.log(message)
     const html = Mustache.render(template, {
-        myName: myName,
+        username: message.username,
         message: message.text,
         created_at: date(message.created_at)
     })
@@ -66,7 +65,7 @@ const setMessage = (message) => {
 }
 const setLink = (link) => {
     const html = Mustache.render(template, {
-        myName: myName,
+        username: link.username,
         link: link.text,
         created_at: date(link.created_at)
     })

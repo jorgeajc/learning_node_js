@@ -23,10 +23,10 @@ io.on('connection', (socket) => {
 
     socket.on('join', ({username, room}, callback) => {
         socket.join(room)
-        socket.emit('message', generateMessage(`Welcome`))
-        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+        socket.emit('message', generateMessage(`Welcome`, `${username}`))
+        socket.broadcast.to(room).emit('message', generateMessage("has joined", `${username}`))
         socket.on('disconnect', () => {
-            io.to(room).emit('message', generateMessage(`${username} disconnect`))
+            io.to(room).emit('message', generateMessage("disconnect", `${username}`))
         })
         socket.on('message', (message, callback) => {
             const filter = new Filter()
@@ -34,11 +34,11 @@ io.on('connection', (socket) => {
                 return callback('Profanity is not allowed')
             }
     
-            io.to(room).emit('message', generateMessage(message))
+            io.to(room).emit('message', generateMessage(message, `${username}`))
             callback()
         })
         socket.on('location', (coords, callback) => {
-            io.to(room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`))
+            io.to(room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`, `${username}`))
             callback()
         })
     })
