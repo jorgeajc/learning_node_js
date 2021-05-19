@@ -19,26 +19,28 @@ app.use(express.static(publicPath))
 
 
 io.on('connection', (socket) => {
-    socket.on('message', (message, callback) => {
-        const filter = new Filter()
-        if(filter.isProfane(message)) {
-            return callback('Profanity is not allowed')
-        }
 
-        io.emit('message', generateMessage(message))
-        callback()
-    })
 
-    socket.emit('message', generateMessage('Welcome!'))
-    socket.broadcast.emit('message', generateMessage('A new user has joined'))
-
-    socket.on('location', (coords, callback) => {
-        io.emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`))
-        callback()
-    })
-
-    socket.on('disconnect', () => {
-        io.emit('message', generateMessage('A user disconnect'))
+    socket.on('join', ({username, room}, callback) => {
+        socket.join(room)
+        socket.emit('message', generateMessage(`Welcome`))
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+        socket.on('disconnect', () => {
+            io.to(room).emit('message', generateMessage(`${username} disconnect`))
+        })
+        socket.on('message', (message, callback) => {
+            const filter = new Filter()
+            if(filter.isProfane(message)) {
+                return callback('Profanity is not allowed')
+            }
+    
+            io.to(room).emit('message', generateMessage(message))
+            callback()
+        })
+        socket.on('location', (coords, callback) => {
+            io.to(room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`))
+            callback()
+        })
     })
 })
 

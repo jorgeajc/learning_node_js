@@ -2,16 +2,21 @@ const socket = io()
 
 // elements
 var btnSendMsg = document.querySelector('#sendMessage')
-var btnSendLocation = document.querySelector('#sendGeo')
+var form = document.querySelector('#message-form')
+var btnSendLocation = document.querySelector('#send-location')
 var inputMessage = document.querySelector('#inputMessage')
-var messageAll = document.querySelector('#message-all')
-
+var messageAll = document.querySelector('#messages')
 // template
 var template = document.querySelector('#message-template').innerHTML
 
 // variables
 const now = new Date()
 const formatDate = "D-M-Y h:mm a"
+
+// options
+const { username, room } = Qs.parse(location.search, {ignoreQueryPrefix: true})
+
+let myName = "Anonymous"
 
 socket.on('message', (message) => {
     setMessage(message)
@@ -21,7 +26,8 @@ socket.on('location', (link) => {
     setLink(link)
 })
 
-btnSendMsg.addEventListener('click', () => {
+form.addEventListener('submit', (e) => {
+    e.preventDefault()
     var msg = inputMessage.value
     if(!msg) {
         return
@@ -52,6 +58,7 @@ btnSendLocation.addEventListener('click', () => {
 
 const setMessage = (message) => {
     const html = Mustache.render(template, {
+        myName: myName,
         message: message.text,
         created_at: date(message.created_at)
     })
@@ -59,11 +66,14 @@ const setMessage = (message) => {
 }
 const setLink = (link) => {
     const html = Mustache.render(template, {
+        myName: myName,
         link: link.text,
         created_at: date(link.created_at)
     })
     messageAll.insertAdjacentHTML('beforeend', html)
 }
+
+socket.emit('join', { username, room })
 
 const date = (date) => {
     return moment(date).format(formatDate)
