@@ -33,7 +33,18 @@
                 <span class="message__meta">{{created_at}}</span>
             </p>
             <p>{{message}}</p>
-            <p><a href="{{link}}" target="_blank">{{link}}</a></p>
+            <p>
+                {{#link}}
+                    <img src="{{icon}}" alt="icon weather" height="50" width="50">
+                    <h4>
+                        <strong>Sent the weather of his current location:</strong>
+                    </h4>
+                    {{place}} <br>
+                    <strong>Weather:</strong>  {{weather}} <br>
+                    <strong>Current temperature:</strong>    {{temperature}} <br>
+                    <a href="{{link}}" target="_blank">Google map</a>
+                {{/link}}
+            </p>
         </div>
     </script>
     <script id="sidebar-template" type="text/html">

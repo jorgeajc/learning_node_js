@@ -75,6 +75,7 @@ form.addEventListener('submit', (e) => {
 btnSendLocation.addEventListener('click', () => {
     btnSendLocation.disabled = true
     if( !navigator.geolocation ) {
+        btnSendLocation.disabled = false
         return alert('Your browser not support geolocation')
     }
     navigator.geolocation.getCurrentPosition((position) => {
@@ -96,9 +97,14 @@ const setMessage = (message) => {
     messageAll.insertAdjacentHTML('beforeend', html)
 }
 const setLink = (link) => {
+    console.log(link)
     const html = Mustache.render(template, {
         username: link.username,
-        link: link.text,
+        link: link.text.url,
+        place: link.text.place,
+        weather: link.text.weather,
+        temperature: link.text.temperature,
+        icon: link.text.icon,
         created_at: date(link.created_at)
     })
     messageAll.insertAdjacentHTML('beforeend', html)

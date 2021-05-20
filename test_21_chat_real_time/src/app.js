@@ -5,6 +5,7 @@ const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generateMessage} = require('./utils/messages.js')
 const { addUser, removeUser, getUser, getUserInRoom } = require('./utils/users.js')
+const forecast = require('./utils/geolocation-api.js')
 
 
 const port = process.env.PORT || 3000 
@@ -59,7 +60,22 @@ io.on('connection', (socket) => {
     })
     socket.on('location', (coords, callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`, user.username))
+        forecast(`${coords.lat}`, `${coords.lon}`, (response) => {
+            if( response.error ) {
+                socket.emit('message', generateMessage('Your request cannot be processed', "Admin"))
+                return false
+            }
+            if( response.location ) {
+                const location = {
+                    url: `https://google.com/maps?q=${coords.lat},${coords.lon}`,
+                    place: `${response.location.country}, ${response.location.region}, ${response.location.name}.`,
+                    weather: response.current.weather_descriptions[0],
+                    temperature: `${response.current.temperature} ℃`,
+                    icon: response.current.weather_icons[0]
+                }
+                io.to(user.room).emit('location', generateMessage(location, user.username))
+            }
+        })
         callback()
     })
 })
