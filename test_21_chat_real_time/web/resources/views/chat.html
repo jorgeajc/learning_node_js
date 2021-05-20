@@ -23,19 +23,23 @@
                     <button id="sendMessage">Send</button>
                 </form>
                 <button id="send-location">Send location</button>
+                <!-- <input type="file" size="45" name="imageFile" id="change-avatar"> -->
             </div>
         </div>
     </div>
+    <img src="" alt="" id="img">
     <script id="message-template" type="text/html">
         <div class="message">
             <p>
+                <!-- <img src="{{avatar}}"> -->
                 <span class="message__name">{{username}}</span>-
                 <span class="message__meta">{{created_at}}</span>
             </p>
             <p>{{message}}</p>
             <p>
                 {{#link}}
-                    <img src="{{icon}}" alt="icon weather" height="50" width="50">
+                    {{avatar}}
+                    <img src="{{avatar}}" alt="icon weather" height="50" width="50">
                     <h4>
                         <strong>Sent the weather of his current location:</strong>
                     </h4>

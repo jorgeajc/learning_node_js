@@ -1,4 +1,5 @@
 const users = []
+const rooms = []
 
 const addUser = ({id, username, room}) => {
     username = username.trim().toLowerCase()
@@ -18,8 +19,10 @@ const addUser = ({id, username, room}) => {
 }
 
 const removeUser = (id) => {
+    const user = getUser(id)
     const index = users.findIndex((user) => user.id === id)
     if( index !== -1) {
+        removeRoom(user.room)
         return users.splice(index, 1)[0]
     }
 }
@@ -31,9 +34,38 @@ const getUser = (id) => {
 const getUserInRoom = (room) => {
     return users.filter((user) => user.room === room.trim().toLowerCase())
 }
+
+const addRoom = (name) => {
+    name = name.trim().toLowerCase()
+    
+    const existingRoom = rooms.find((room) => {
+        return room.name === name
+    })
+
+    if( existingRoom ) return { room: existingRoom }
+    
+    const room = {name}
+    rooms.push(room)
+    return { room }
+}
+const getRooms = () => {
+    return rooms
+}
+const removeRoom = (name) => {
+    const hasUserInRoom = getUserInRoom(name)
+    if( hasUserInRoom.length == 1) {
+        const index = rooms.findIndex((room) => room.name === name )
+        if( index !== -1) {
+            return rooms.splice(index, 1)[0]
+        }
+    }
+}
 module.exports = {
     addUser,
     removeUser,
     getUser,
-    getUserInRoom
+    getUserInRoom,
+    addRoom,
+    getRooms,
+    removeRoom
 }

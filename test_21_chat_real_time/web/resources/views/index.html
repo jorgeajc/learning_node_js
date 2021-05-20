@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Chat App</title>
-    <link rel="stylesheet" href="css/styles.min.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="/img/favicon.png">
 </head>
 <body>
@@ -17,10 +17,19 @@
                 <label>DIsplay name:</label>
                 <input type="text" name="username" placeholder="Display Name" required>
                 <label>Room</label>
-                <input type="text" name="room" placeholder="Room" required>
+                <input type="text" name="room" placeholder="Room" required id="inputroom">
+                <div id="rooms"></div>
                 <button>Join</button>
             </form>
         </div>
     </div>
+    <script id="list-room-template" type="text/html">
+        {{#rooms}}
+            {{name}}
+        {{/rooms}}
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.3/mustache.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

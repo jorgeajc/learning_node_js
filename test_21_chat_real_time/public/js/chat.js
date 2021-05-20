@@ -57,6 +57,7 @@ socket.on('roomData', ({room, users}) => {
     sidebar.innerHTML = html
 })
 
+
 form.addEventListener('submit', (e) => {
     e.preventDefault()
     var msg = inputMessage.value
@@ -97,7 +98,6 @@ const setMessage = (message) => {
     messageAll.insertAdjacentHTML('beforeend', html)
 }
 const setLink = (link) => {
-    console.log(link)
     const html = Mustache.render(template, {
         username: link.username,
         link: link.text.url,

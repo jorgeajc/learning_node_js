@@ -1,5 +1,4 @@
 const generateMessage = (text, username = 'Anonymous') => {
-    console.log(username)
     return {
         text,
         username,
