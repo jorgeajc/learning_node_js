@@ -1,8 +1,8 @@
-const generateMessage = (text, username) => {
+const generateMessage = (text, username = 'Anonymous') => {
     console.log(username)
     return {
         text,
-        username: username ? username : 'Anonymous',
+        username,
         created_at: new Date().getTime()
     }
 }

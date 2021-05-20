@@ -4,6 +4,7 @@ const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const {generateMessage} = require('./utils/messages.js')
+const { addUser, removeUser, getUser, getUserInRoom } = require('./utils/users.js')
 
 
 const port = process.env.PORT || 3000 
@@ -22,25 +23,44 @@ io.on('connection', (socket) => {
 
 
     socket.on('join', ({username, room}, callback) => {
-        socket.join(room)
-        socket.emit('message', generateMessage(`Welcome`, `${username}`))
-        socket.broadcast.to(room).emit('message', generateMessage("has joined", `${username}`))
-        socket.on('disconnect', () => {
-            io.to(room).emit('message', generateMessage("disconnect", `${username}`))
+
+        const {error, user } = addUser({id: socket.id,username, room})
+
+        if( error ) return callback(error)
+
+        socket.join(user.room)
+        socket.emit('message', generateMessage(`Welcome`, "Admin"))
+        socket.broadcast.to(user.room).emit('message', generateMessage("has joined", `${user.username}`))
+        io.to(user.room).emit('roomData', {
+            room: user.room,
+            users: getUserInRoom(user.room)
         })
-        socket.on('message', (message, callback) => {
-            const filter = new Filter()
-            if(filter.isProfane(message)) {
-                return callback('Profanity is not allowed')
-            }
-    
-            io.to(room).emit('message', generateMessage(message, `${username}`))
-            callback()
-        })
-        socket.on('location', (coords, callback) => {
-            io.to(room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`, `${username}`))
-            callback()
-        })
+        callback()
+    })
+
+    socket.on('disconnect', () => {
+        const user = removeUser(socket.id)
+        if( user ) {
+            io.to(user.room).emit('message', generateMessage("disconnect", user.username))
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUserInRoom(user.room)
+            })
+        }
+    })
+    socket.on('message', (message, callback) => {
+        const filter = new Filter()
+        if(filter.isProfane(message)) {
+            return callback('Profanity is not allowed')
+        }
+        const user = getUser(socket.id)
+        io.to(user.room).emit('message', generateMessage(message, user.username))
+        callback()
+    })
+    socket.on('location', (coords, callback) => {
+        const user = getUser(socket.id)
+        io.to(user.room).emit('location', generateMessage(`https://google.com/maps?q=${coords.lat},${coords.lon}`, user.username))
+        callback()
     })
 })
 
