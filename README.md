@@ -1,6 +1,7 @@
 <br />
 <p align="center">
   <h3 align="center">learning_node_js</h3>
+  by udemy course: https://www.udemy.com/course/the-complete-nodejs-developer-course-2/learn/lecture/13728806?start=15#overview
 </p>
 
 <!-- GETTING STARTED -->
